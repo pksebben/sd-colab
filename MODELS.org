@@ -1,0 +1,43 @@
+* Data Models
+** Machine models
+*** restrictions
+**** checks when booking
+***** check if the user is already booked on a mchine at that time
+***** check if the time slot is available
+***** check that the user has privilege
+***** 15 hours in a week on any one machine
+*** For each machine
+**** Times that the machine is available
+seperate table?  List?
+1/2 hour increments min. 2 hour.  start / middle of the hour.
+**** Whether someone has privileges
+relational table
+**** descriptions for the machines 
+probably static
+**** How to get certified
+Static
+*** Machines
+each one of these needs to have times it is available, and a list of people registered to use the machine at any given moment.  It should also control whether or not someone has the required privileges to use said machine
+**** 3D printing
+**** Ceramics
+**** Design
+**** Electronics-Seat 1
+**** Electronics-Seat 2
+**** Electronics-Seat 3
+**** Laser
+**** Plasma cutter
+**** Printmaking
+**** Router
+**** Router #2
+**** Sewing
+**** Welding
+**** Woodshop
+** Members
+*** The members table
+**** Name
+**** ID
+**** IsAdmin
+*** Member to machine
+**** IsInstructor
+
+* API
