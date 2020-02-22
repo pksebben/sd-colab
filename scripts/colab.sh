@@ -4,6 +4,6 @@
 
 export CDPATH=$HOME
 
-source ~/Documents/colab/colab/bin/activate
+source ~/Documents/sd-colab/sd-colab/colab/bin/activate
 
-cd Documents/colab/
+cd Documents/sd-colab/sd-colab/
