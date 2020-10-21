@@ -66,6 +66,7 @@ def garble(length):
 
 def generate_person():
     person = models.Member(
+        name=makeaname(8),
         email=makeanemail(makeaname(8)),
         created=datetime.datetime.now(),
         passhash = bcrypt.hash("pass"),
@@ -85,8 +86,8 @@ def people():
         email="tom@gmail.com",
         admin=False
     )
-    db.db.session.add(tom)
-    db.db.session.commit()
+    session.add(tom)
+    session.commit()
 
 def gogogadget():
     init()

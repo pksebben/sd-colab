@@ -2,6 +2,7 @@
 
 import plugin
 import models
+import sqlalchemy
 
 # DB
 db_conn_string = "sqlite:///foo.db"
@@ -12,3 +13,4 @@ def init(app):
     global db
     db = plugin.SQLAlchemy(app, db_conn_string)
     models.Base.metadata.create_all(db.engine)
+

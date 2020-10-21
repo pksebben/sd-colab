@@ -35,32 +35,47 @@ class StartTest(unittest.TestCase):
     BEGIN TESTS
     """
     
-    # api.register_user()
+    # api.create_user()
     
-    def test_register_user_success_response(self):
-        res = self.tester.post('/register_user', data=dict(
+    def test_create_user_success_response(self):
+        res = self.tester.post('/create_user', data=dict(
             email= "sam@gmail.com",
+            name="sam",
             password = "pass",
             admin = False
         ))
         self.assertEqual(res.status_code, 200)
 
-    def test_register_user_success_exists(self):
-        res = self.tester.post('/register_user', data=dict(
+    def test_create_user_success_exists(self):
+        res = self.tester.post('/create_user', data=dict(
             email = "bob@gmail.com",
+            name = "bob",
             password = "pass",
             admin = False
         ))
         bob = db.db.session.query(models.Member).filter(models.Member.email == "bob@gmail.com").first()
         self.assertTrue(bob)
 
-    def test_register_user_exists(self):                    
-        res = self.tester.post('/register_user', data=dict(
+    def test_create_user_exists(self):                    
+        res = self.tester.post('/create_user', data=dict(
             email="tom@gmail.com",
             password="pass",
             admin=False
         ))
         self.assertEqual(res.status_code, 400)
+
+    def test_user_update(self):
+        res = self.tester.post('/edit/user/1', data=dict(
+            email="bill@gmail.com",
+            name="bob"
+        ))
+        self.assertEqual(res.json['name'], "bob")
+
+    def test_partial_user_update(self):
+        res = self.tester.post('/edit/user/2', data=dict(
+            name="tom"
+        ))
+        self.assertEqual(res.json['name'], "tom")
 
 if __name__ == "__main__":
     unittest.main()

@@ -15,39 +15,39 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+# certifies a member on a machine, as an instructor if applicable
 class MemberToMachine(Base):
     __tablename__ = 'member_to_machine'
     member_id = Column(Integer, ForeignKey('member.id'), primary_key=True)
     machine_id = Column(Integer, ForeignKey('machine.id'), primary_key=True)
     instructor = Column(Boolean, nullable=False)
 
+# member registration
 class Member(Base):
     __tablename__ = "member"
     id = Column(Integer, primary_key=True)
+    name = Column(String)
     email = Column(String, nullable=False, unique=True)
     created = Column(DateTime)
     admin = Column(Boolean, nullable=False)
     passhash = Column(String, nullable=False)
 
+# machine registration
 class Machine(Base):
     __tablename__ = "machine"
     id = Column(Integer, primary_key=True)
     name = Column(String(25), unique=True)
-
-class Workstation(Base):
-    __tablename__ = "workstation"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(25), nullable=False, unique=True)
-    
-    
-class TimeSlot(Base):
-    __tablename__ = "timeslot"
-    id = Column(Integer, primary_key=True)
-    workstation_id = Column(Integer, ForeignKey("workstation.id"), nullable=False)
-    member_id = Column(Integer, ForeignKey("member.id"), nullable=False)
-    time = Column(DateTime)
+   
+# # may want to rethink this in favor of a calendar.  Or not.  Think on it. 
+# class TimeSlot(Base):
+#     __tablename__ = "timeslot"
+#     id = Column(Integer, primary_key=True)
+#     workstation_id = Column(Integer, ForeignKey("workstation.id"), nullable=False)
+#     member_id = Column(Integer, ForeignKey("member.id"), nullable=False)
+#     time = Column(DateTime)
 
 
+# I can't think of a world in which the rest of this data is necessary, so long as we have calendars for the machines that can track when they're available and to whom they're promised.
 
 # class LaserSlot(Base):
 #     __tablename__ = "laserslot"

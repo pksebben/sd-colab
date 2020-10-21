@@ -38,7 +38,7 @@ def init():
 def main():
     log.msg("RUN main")
     # initialize app
-    # init()                      
+    init()                      
     # initialize db
     log.msg("RUN db.init(app)")
     db.init(app)

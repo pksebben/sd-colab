@@ -7,8 +7,7 @@ from twisted.web import server, wsgi
 
 # CONTAINER
 """
-his sets up everything that twisted needs in order to handle shutdowns as well as setting up a WSGI instance to interact with using twisted web (googlable).
-
+this sets up everything that twisted needs in order to handle shutdowns as well as setting up a WSGI instance to interact with using twisted web (googlable).
 """
 logger = logging.getLogger(__name__)
 def run(app, address, debug):
