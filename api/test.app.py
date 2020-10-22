@@ -1,5 +1,7 @@
 import os
 import unittest
+import datetime
+import time
 
 import flask
 from flask import session
@@ -77,5 +79,21 @@ class StartTest(unittest.TestCase):
         ))
         self.assertEqual(res.json['name'], "tom")
 
+    def test_create_machine(self):
+        res = self.tester.post('/create_machine', data=dict(
+            name='the buzzsawinator'
+        ))
+        self.assertEqual(res.status_code, 200)
+
+    def test_request_reservation(self):
+        res = self.tester.post('/reserve', data=dict(
+            date = "2021-01-01",
+            start = "12:00:00",
+            end = "14:00:00",
+            machine_id = 1,
+            member_id = 1
+        ))
+        self.assertEqual(res.status_code, 200)
+        
 if __name__ == "__main__":
     unittest.main()
