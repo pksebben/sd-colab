@@ -48,6 +48,8 @@ class Member(Base):
     created = Column(DateTime)
     admin = Column(Boolean, nullable=False)
     passhash = Column(String, nullable=False)
+    notes=Column(String, nullable=True)
+    reservations = relationship("Reservation", back_populates="member")
 
 # machine registration
 
@@ -57,10 +59,7 @@ class Machine(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(25), unique=True)
 
-# Trying a new thing
-# reservations will track the machine, the date, and the time, and we're going to use
-# querying cleverly to check for collissions, rather than trying to reduce problem space via
-# multiple tables.
+# reservations for time on machines
 
 
 class Reservation(Base):
@@ -68,117 +67,8 @@ class Reservation(Base):
     date = Column(Date, primary_key=True)
     start = Column(String)
     end = Column(String)
+    notes = Column(String, nullable=True)
     member_id = Column(Integer, ForeignKey('member.id'), primary_key=True)
     machine_id = Column(Integer, ForeignKey('machine.id'), primary_key=True)
-
-
-# ON HOLD: I want to try a simpler method of booking reservations first.  Then we can go bugfuck with all the tables.
-# class MachineCalendar(Base):
-#     __tablename__ = "machine_calendar"
-#     machine_id = Column(Integer, primary_key=True, ForeignKey('machine.id'))
-#     dates = relationship('Day', back_populates="machine_calendar")
-
-# class Day(Base):
-#     __tablename__ = "day"
-#     date = Column(Date, primary_key=True)
-#     calendar_id = Column(Integer, primary_key=True, ForeignKey('machine_calendar.machine_id'))
-#     machine_calendar = relationship('MachineCalendar', back_populates='day')
-#     times = Column(Time)
-
-
-# # may want to rethink this in favor of a calendar.  Or not.  Think on it.
-# class TimeSlot(Base):
-#     __tablename__ = "timeslot"
-#     id = Column(Integer, primary_key=True)
-#     workstation_id = Column(Integer, ForeignKey("workstation.id"), nullable=False)
-#     member_id = Column(Integer, ForeignKey("member.id"), nullable=False)
-#     time = Column(DateTime)
-
-
-# I can't think of a world in which the rest of this data is necessary, so
-# long as we have calendars for the machines that can track when they're
-# available and to whom they're promised.
-
-# class LaserSlot(Base):
-#     __tablename__ = "laserslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class CeramicsSlot(Base):
-#     __tablename__ = "ceramicslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class ThreeDPrintSlot(Base):
-#     __tablename__ = "threedprintslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class DesignSlot(Base):
-#     __tablename__ = "designslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class ElectronicSeat1Slot(Base):
-#     __tablename__ = "electronicseat1slot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class ElectronicSeat2Slot(Base):
-#     __tablename__ = "electronicseat2slot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class ElectronicSeat3Slot(Base):
-#     __tablename__ = "electronicseat3slot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class PlasmaCutterSlot(Base):
-#     __tablename__ = "plasmacutterslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class PrintMakingSlot(Base):
-#     __tablename__ = "printmakingslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class Router1Slot(Base):
-#     __tablename__ = "router1slot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class Router2Slot(Base):
-#     __tablename__ = "router2slot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class SewingSlot(Base):
-#     __tablename__ = "sewingslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class WeldingSlot(Base):
-#     __tablename__ = "weldingslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
-
-# class WoodshopSlot(Base):
-#     __tablename__ = "woodhopslot"
-#     slot = Column(DateTime, unique = True, nullable=False)
-#     member_id = Column(Integer, ForeignKey(member.id), nullable=True)
-#     closed = Column(Boolean, nullable=False)
+    member = relationship("Member", back_populates='reservations')
+    

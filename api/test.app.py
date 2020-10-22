@@ -95,5 +95,39 @@ class StartTest(unittest.TestCase):
         ))
         self.assertEqual(res.status_code, 200)
         
+    def test_reservation_unavailable(self):
+        setup = self.tester.post('/reserve', data=dict(
+            date = "2021-02-01",
+            start = "12:00:00",
+            end = "14:00:00",
+            machine_id = 1,
+            member_id = 1
+        ))
+        res = self.tester.post('/reserve', data=dict(
+            date = "2021-02-01",
+            start = "12:00:00",
+            end = "14:00:00",
+            machine_id = 1,
+            member_id = 2
+        ))
+        self.assertEqual(res.status_code, 400)
+
+    def test_adjacent_reservations(self):
+        setup = self.tester.post('/reserve', data=dict(
+            date = "2021-03-01",
+            start = "12:00:00",
+            end = "14:00:00",
+            machine_id = 1,
+            member_id = 3
+        ))
+        res = self.tester.post('/reserve', data=dict(
+            date = "2021-03-01",
+            start = "14:00:00",
+            end = "16:00:00",
+            machine_id = 1,
+            member_id = 4
+        ))
+        self.assertEqual(res.status_code, 200)
+
 if __name__ == "__main__":
     unittest.main()

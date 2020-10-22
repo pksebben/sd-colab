@@ -89,8 +89,16 @@ def people():
     session.add(tom)
     session.commit()
 
+def robots():
+    drilldough = models.Machine(
+        name = "the drill, dough."
+    )
+    session.add(drilldough)
+    session.commit()
+    
 def gogogadget():
     init()
+    robots()
     people()
     crowd(50)
 
