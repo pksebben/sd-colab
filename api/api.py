@@ -113,7 +113,7 @@ def get_calendar(machineid):
 
 @api.route('/reserve', methods=['POST'])
 def request_reservation():
-    desired_date = flask.request.values['date']
+    desired_date = datetime.date.fromisoformat(flask.request.values['date'])
     desired_start = flask.request.values['start']
     desired_end = flask.request.values['end']
     machine = db.db.session.query(models.Machine).filter(models.Machine.id == flask.request.values['machine_id']).one()
@@ -135,7 +135,7 @@ def request_reservation():
     if not collision:
         print(type(desired_date))
         db.db.session.add(models.Reservation(
-            date = datetime.date.fromisoformat(desired_date),
+            date = desired_date,
             start = desired_start,
             end = desired_end,
             machine_id = machine.id,
