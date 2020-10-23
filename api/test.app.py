@@ -110,7 +110,7 @@ class StartTest(unittest.TestCase):
             machine_id = 1,
             member_id = 2
         ))
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 409)
 
     def test_adjacent_reservations(self):
         setup = self.tester.post('/reserve', data=dict(

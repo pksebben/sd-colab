@@ -162,7 +162,7 @@ def request_reservation():
                 return flask.jsonify({
                     msg: "sorry, but {} has a booking in that time slot already".format(reservation.member.name),
                     status_code: 409
-                }), 409 # TODO: input correct return code
+                }), 409 
 
     db.db.session.add(models.Reservation(
         date=desired_date,
